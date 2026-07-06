@@ -11,7 +11,8 @@ assignees: ''
 
 As a User / Developer I want to:
 
-### Acceptence Criteria:
+### Acceptance Criteria:
 
 - [ ] 
+- [ ]
 - [ ]
