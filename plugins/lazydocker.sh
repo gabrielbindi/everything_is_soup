@@ -22,7 +22,7 @@ gui:
       - "#FFFF00"
       - "reverse"
       - "bold"
-      
+
 EOF
   fi
 
@@ -44,7 +44,7 @@ else
               command chmod +x install_update_linux.sh
               command sudo ./install_update_linux.sh
               INSTALL_STATUS=$?
-              command rm -f install_update_linux.sh
+              command rm install_update_linux.sh
           fi
 
       elif command -v pacman &> /dev/null; then
