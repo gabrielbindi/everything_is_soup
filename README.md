@@ -1,5 +1,5 @@
 # Welcome to "Everything is soup"
-A Linux-Distro that changes the standard Linux commands into soup related vocabulary. 
+A Linux-Config that changes the standard Linux commands into soup related vocabulary. 
 
 ## The Idea:
 
