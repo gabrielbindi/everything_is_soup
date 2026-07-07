@@ -1,4 +1,4 @@
-SOUP_DIR="$HOME/everything_is_soup"
+SOUP_DIR="$SOUP_CORE_DIR"
 
 command mkdir -p "$SOUP_DIR/plugins"
 
@@ -8,7 +8,7 @@ if command -v lazygit &> /dev/null; then
   THEME_FILE="$SOUP_DIR/plugins/.lazygit_theme.toml"
 
   if [ ! -f "$THEME_FILE" ]; then
-    taste << 'EOF' > "$THEME_FILE"
+    command cat << 'EOF' > "$THEME_FILE"
 
 [gui.theme]
     activeBorderColor = ["#FF0000", "bold"]

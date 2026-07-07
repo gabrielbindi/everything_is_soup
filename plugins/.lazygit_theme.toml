@@ -1,0 +1,7 @@
+
+[gui.theme]
+    activeBorderColor = ["#FF0000", "bold"]
+    inactiveBorderColor = ["#00FFFF"]
+    optionsTextColor = ["#00FFFF"]
+    selectedLineBgColor = ["#FFFF00"]
+

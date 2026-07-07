@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
 TARGET_DIR="$HOME/.everything_is_soup"
-mkdir -p "$TARGET_DIR/plugins"
+command mkdir -p "$TARGET_DIR/plugins"
 
 command echo "[+] Installing soup-kitchen..."
-curl -sSL "raw.githubusercontent.com/gabrielbindi/everything_is_soup.git/main/soup.config" -o "$TARGET_DIR/soup.config"
-curl -sSL "raw.githubusercontent.com/gabrielbindi/everything_is_soup.git/main/plugins/lazygit.sh" -o "$TARGET_DIR/plugins/lazygit.sh"
+URL_CONFIG="https://raw.githubusercontent.com/gabrielbindi/.everything_is_soup.git/main/soup.config"
+command curl -sSL "$URL_CONFIG" -o "$TARGET_DIR/soup.config"
+URL_LAZYGIT="https://raw.githubusercontent.com/gabrielbindi/.everything_is_soup.git/main/plugins/lazygit.sh"
+command curl -sSL "$URL_LAZYGIT" -o "$TARGET_DIR/plugins/lazygit.sh"
 
 if ! grep -q "soup.config" "$HOME/.bashrc"; then
     command echo "[+] Configuring soup-kitchen as your shell environment..."
