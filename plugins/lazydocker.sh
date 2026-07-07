@@ -32,7 +32,7 @@ else
     command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
 
     cook-whale() {
-        command echo -e "\033[1;36m[+] Brewing up whalesoup...\033[0m"
+        command echo -e "\033[1;5;32m[+] Brewing up whalesoup...\033[0m"
 
         if command -v apt-get &> /dev/null; then
             command echo "packagemanager 'apt' detected. Brewing whalesoup via apt-get..."
@@ -41,7 +41,6 @@ else
             else
                 command echo -e "\033[1;33m[!] 'lazydocker' not in apt. Downloading stable x86_64 binary directly...\033[0m"
                 
-                # REPARATUR: Holt die aktuellste Version direkt von der GitHub API ohne "v" vorne (z.B. 0.23.3)
                 LAZYDOCKER_VERSION=$(command curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | command grep -Po '"tag_name": "v\K[^"]*')
                 
                 if [ -z "$LAZYDOCKER_VERSION" ]; then
@@ -49,7 +48,6 @@ else
                     return 1
                 fi
 
-                # Lädt den absolut korrekten Link mit eingebauter Versionsnummer
                 command curl -sSL "https://github.com/jesseduffield/lazydocker/releases/download/v${LAZYDOCKER_VERSION}/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz" -o "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
                 command sudo tar -xzf "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz" -C /usr/local/bin/ lazydocker
                 INSTALL_STATUS=$?
@@ -72,7 +70,7 @@ else
         fi
 
         if [ $INSTALL_STATUS -eq 0 ]; then
-            command echo -e "\033[1;32m[+] lazydocker has been successfully brewed!\033[0m"
+            command echo -e "\033[1;5;32m[+] SUCCESS - lazydocker has been successfully brewed!\033[0m"
             command echo -e "\033[1;36m[+] Restart your terminal or type 'source ~/.bashrc' to activate 'soup-docker'.\033[0m"
         else
             command echo -e "\033[1;31m[!] Failed to brew lazydocker. Please check your package manager and try again.\033[0m"
