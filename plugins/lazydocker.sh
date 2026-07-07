@@ -83,9 +83,9 @@ EOF
     fi
 
     if [ -w /var/run/docker.sock ]; then
-        DIR="$SOUP_DIR/plugins/lazydocker" command lazydocker
+        command lazydocker -f "$THEME_PATH"
     else
         command echo -e "\033[1;31m[!] Kitchen permission missing for Docker. Cooking with chef privileges...\033[0m"
-        command sudo DIR="$SOUP_DIR/plugins/lazydocker" lazydocker
+        command sudo lazydocker -f "$THEME_PATH"
     fi
 }
