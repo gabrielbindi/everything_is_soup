@@ -24,9 +24,9 @@ gui:
       - "bold"
 
 EOF
-fi
+    fi
 
-alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
+    alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
 
 else
     command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
@@ -39,11 +39,21 @@ else
             if command sudo apt-get update && command sudo apt-get install -y lazydocker 2>/dev/null; then
                INSTALL_STATUS=0
             else
-            command echo -e "\033[1;33m[!] 'lazydocker' not in apt. Downloading stable x86_64 binary directly...\033[0m"
-            command curl -sSL "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz" -o "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
-            command sudo tar -xzf "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz" -C /usr/local/bin/
+                command echo -e "\033[1;33m[!] 'lazydocker' not in apt. Downloading stable x86_64 binary directly...\033[0m"
+                
+                # REPARATUR: Holt die aktuellste Version direkt von der GitHub API ohne "v" vorne (z.B. 0.23.3)
+                LAZYDOCKER_VERSION=$(command curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | command grep -Po '"tag_name": "v\K[^"]*')
+                
+                if [ -z "$LAZYDOCKER_VERSION" ]; then
+                    command echo -e "\033[1;31m[!] Could not fetch latest lazydocker version from GitHub API.\033[0m"
+                    return 1
+                fi
+
+                # Lädt den absolut korrekten Link mit eingebauter Versionsnummer
+                command curl -sSL "https://github.com/jesseduffield/lazydocker/releases/download/v${LAZYDOCKER_VERSION}/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz" -o "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
+                command sudo tar -xzf "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz" -C /usr/local/bin/ lazydocker
                 INSTALL_STATUS=$?
-            command rm -f "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
+                command rm -f "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
             fi
 
         elif command -v pacman &> /dev/null; then
