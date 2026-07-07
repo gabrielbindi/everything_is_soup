@@ -1,19 +1,21 @@
-SOUP_DIR="$HOME/.everything_is_soup"
+SOUP_DIR="$HOME/everything_is_soup"
 
-cook -p "$SOUP_DIR/plugins"
+command mkdir -p "$SOUP_DIR/plugins"
 
 if command -v lazygit &> /dev/null; then
   echo -e "\033[1;32m[+] lazygit is already installed.\033[0m"
 
-  THEME_FILE="$SOUP_DIR/plugins/lazygit_theme.toml"
+  THEME_FILE="$SOUP_DIR/plugins/.lazygit_theme.toml"
 
   if [ ! -f "$THEME_FILE" ]; then
     taste << 'EOF' > "$THEME_FILE"
-[theme]
+
+[gui.theme]
     activeBorderColor = ["#FF0000", "bold"]
     inactiveBorderColor = ["#00FFFF"]
-    optionsBorderColor = ["#00FFFF"]
+    optionsTextColor = ["#00FFFF"]
     selectedLineBgColor = ["#FFFF00"]
+
 EOF
   fi
 
@@ -27,15 +29,15 @@ EOF
 
         if command -v apt-get &> /dev/null; then
             echo "packagemanager 'apt' detected. Brewing lazygit via apt-get..."
-            sudo apt-get update && sudo apt-get install -y lazygit
+            command sudo apt-get update && sudo apt-get install -y lazygit
 
         elif command -v pacman &> /dev/null; then
             echo "packagemanager 'pacman' detected. Brewing lazygit via pacman..."
-            sudo pacman -S --noconfirm lazygit
+            command sudo pacman -S --noconfirm lazygit
 
         elif command -v dnf &> /dev/null; then
             echo "packagemanager 'dnf' detected. Brewing lazygit via dnf..."
-            sudo dnf install -y lazygit
+            command sudo dnf install -y lazygit
 
         else
             echo -e "\033[1;31m[!] No supported package manager found. Please install lazygit manually.\033[0m"
