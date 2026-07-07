@@ -20,7 +20,9 @@ gui:
         optionsTextColor:
             - "#00FFFF"
         selectedLineBgColor:
-            - "#FFFF00, "reverse", "bold"
+            - "#FFFF00"
+            - "reverse"
+            - "bold"
 EOF
   fi
 
