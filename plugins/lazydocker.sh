@@ -40,10 +40,10 @@ else
                INSTALL_STATUS=0
             else
             command echo -e "\033[1;33m[!] 'lazydocker' not in apt. Downloading stable x86_64 binary directly...\033[0m"
-            command curl -sSL "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz" -o lazydocker.tar.gz
-            command sudo tar -xzf lazydocker.tar.gz -C /usr/local/bin/
+            command curl -sSL "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz" -o "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
+            command sudo tar -xzf "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz" -C /usr/local/bin/
                 INSTALL_STATUS=$?
-            command rm -f lazydocker.tar.gz
+            command rm -f "$SOUP_DIR/plugins/lazydocker/lazydocker.tar.gz"
             fi
 
         elif command -v pacman &> /dev/null; then
