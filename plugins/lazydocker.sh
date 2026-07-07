@@ -3,12 +3,12 @@ SOUP_DIR="$SOUP_CORE_DIR"
 command mkdir -p "$SOUP_DIR/plugins/lazydocker"
 
 if command -v lazydocker &> /dev/null; then
-  command echo -e "\033[1;32m[+] whalesoup (lazydocker) is already installed.\033[0m"
+    command echo -e "\033[1;32m[+] lazydocker is already installed.\033[0m"
 
-  THEME_FILE="$SOUP_DIR/plugins/lazydocker/config.yml"
+    THEME_FILE="$SOUP_DIR/plugins/lazydocker/.lazydocker_theme.yml"
+    if [ ! -f "$THEME_FILE" ]; then
+        taste << 'EOF' > "$THEME_FILE"
 
-  if [ ! -f "$THEME_FILE" ]; then
-    command cat << 'EOF' > "$THEME_FILE"
 gui:
   theme:
     activeBorderColor:
@@ -22,52 +22,53 @@ gui:
       - "#FFFF00"
       - "reverse"
       - "bold"
-EOF
-  fi
 
-  alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
+EOF
+    fi
+
+    alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
 
 else
-  command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
+    command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
 
-  cook-whale() {
-    command echo -e "\033[1;36m[+] Brewing up whalesoup...\033[0m"
+    cook-whale() {
+        command echo -e "\033[1;36m[+] Brewing up whalesoup...\033[0m"
 
-    if command -v apt-get &> /dev/null; then
-      command echo "packagemanager 'apt' detected. Trying via apt-get first..."
-      if command sudo apt-get update && command sudo apt-get install -y lazydocker 2>/dev/null; then
-        INSTALL_STATUS=0
+        if command -v apt-get &> /dev/null; then
+            command echo "packagemanager 'apt' detected. Brewing whalesoup via apt-get..."
+            if command sudo apt-get update && command sudo apt-get install -y lazydocker 2>/dev/null; then
+               INSTALL_STATUS=0
+            else
+                command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub releases...\033[0m"
+                curl -sLO https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
+                command chmod +x install_update_linux.sh
+                command sudo ./install_update_linux.sh
+                INSTALL_STATUS=$?
+                command rm install_update_linux.sh
+            fi
+
+        elif command -v pacman &> /dev/null; then
+            command echo "packagemanager 'pacman' detected. Brewing whalesoup via pacman..."
+            command sudo pacman -S --noconfirm lazydocker
+            INSTALL_STATUS=$?
+
+        elif command -v dnf &> /dev/null; then
+            command echo "packagemanager 'dnf' detected. Brewing whalesoup via dnf..."
+            command sudo dnf install -y lazydocker
+            INSTALL_STATUS=$?
+
         else
-        command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub sources...\033[0m"
-        curl -sLO https://raw.githubusercontent.com/jsembleduffield/lazydocker/master/scripts/install_update_linux.sh
-        command chmod +x install_update_linux.sh
-        command sudo ./install_update_linux.sh
-        INSTALL_STATUS=$?
-        command rm install_update_linux.sh
-      fi
+            command echo -e "\033[1;31m[!] No supported package manager found. Please install lazydocker manually.\033[0m"
+            return 1
+        fi
 
-    elif command -v pacman &> /dev/null; then
-      command echo "packagemanager 'pacman' detected. Brewing via pacman..."
-      command sudo pacman -S --noconfirm lazydocker
-      INSTALL_STATUS=$?
+        if [ $INSTALL_STATUS -eq 0 ]; then
+            command echo -e "\033[1;32m[+] lazydocker has been successfully brewed!\033[0m"
+            command echo -e "\033[1;36m[+] Restart your terminal or type 'source ~/.bashrc' to activate 'soup-docker'.\033[0m"
+        else
+            command echo -e "\033[1;31m[!] Failed to brew lazydocker. Please check your package manager and try again.\033[0m"
+        fi
+    }
 
-    elif command -v dnf &> /dev/null; then
-      command echo "packagemanager 'dnf' detected. Brewing via dnf..."
-      command sudo dnf install -y lazydocker
-      INSTALL_STATUS=$?
-
-    else
-      command echo -e "\033[1;31m[!] No supported package manager found. Please install lazydocker manually.\033[0m"
-      return 1
-    fi
-
-    if [ $INSTALL_STATUS -eq 0 ]; then
-      command echo -e "\033[1;32m[+] whalesoup has been successfully brewed!\033[0m"
-      command echo -e "[+] Restart your terminal or type 'source ~/.bashrc' to activate 'soup-docker'."
-    else
-      command echo -e "\033[1;31m[!] Failed to brew whalesoup. Please check your internet connection or install manually.\033[0m"
-    fi
-  }
-
-  alias soup-docker="command echo 'whalesoup is not installed. Type \033[1;36mcook-whale\033[0m to install it.'"
+    alias soup-docker="command echo 'whalesoup is not installed. Type \033[1;36mcook-whale\033[0m to brew it in your kitchen.'"
 fi
