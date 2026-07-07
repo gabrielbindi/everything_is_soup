@@ -7,7 +7,7 @@ if command -v lazydocker &> /dev/null; then
 
     THEME_FILE="$SOUP_DIR/plugins/lazydocker/.lazydocker_theme.yml"
     if [ ! -f "$THEME_FILE" ]; then
-        taste << 'EOF' > "$THEME_FILE"
+        command cat << 'EOF' > "$THEME_FILE"
 
 gui:
   theme:
