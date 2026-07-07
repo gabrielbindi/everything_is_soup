@@ -26,24 +26,7 @@ gui:
 EOF
     fi
 
-    soup-docker() {
-        if ! command -v docker &> /dev/null; then
-            command echo -e "\033[1;31m[!] Docker Engine is completely missing! Please run 'cook-whale' first.\033[0m"
-            return 1
-        fi
-
-        if ! command systemctl is-active --quiet docker 2>/dev/null; then
-            command echo -e "\033[1;33m[!] Docker daemon is slurping soup right now. Heating up stove...\033[0m"
-            command sudo systemctl start docker
-        fi
-
-        if [ -w /var/run/docker.sock ]; then
-            DIR="$SOUP_DIR/plugins/lazydocker" lazydocker
-        else
-            command echo -e "\033[1;31m[!] Kitchen permission missing for Docker. Cooking with chef privileges...\033[0m"
-            command sudo DIR="$SOUP_DIR/plugins/lazydocker" lazydocker
-        fi
-    }
+    alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
 
 else
     command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
@@ -52,7 +35,7 @@ else
         command echo -e "\033[1;36m[+] Brewing up whalesoup...\033[0m"
 
         if ! command -v docker &> /dev/null; then
-            command echo -e "\033[1;33m[!] Docker Engine not found! Installing real Docker first...\033[0m"
+            command echo -e "\033[1;33m[!] Docker Engine missing! Preparing the main stove...\033[0m"
             if command -v apt-get &> /dev/null; then
                 command sudo apt-get update && command sudo apt-get install -y docker.io
             elif command -v pacman &> /dev/null; then
@@ -92,12 +75,12 @@ else
 
         if [ $INSTALL_STATUS -eq 0 ]; then
             command sudo usermod -aG docker $USER 2>/dev/null
-            command echo -e "\033[1;32m[+] SUCCESS - whalesoup has been successfully brewed!\033[0m"
+            command echo -e "\033[1;5;32m[+] SUCCESS - whalesoup has been successfully brewed!\033[0m"
             command echo -e "\033[1;36m[+] Please RESTART your terminal completely to activate 'soup-docker'.\033[0m"
         else
-            command echo -e "\033[1;31m[!] Failed to brew.\033[0m"
+            command echo -e "\033[1;31m[-] Failed to brew.\033[0m"
         fi
     }
 
-    alias soup-docker="command echo 'whalesoup is not installed. Type \033[1;36mcook-whale\033[0m to brew it in your kitchen.'"
+    alias soup-docker="command echo 'whalesoup is not installed. Type cook-whale to brew it in your kitchen.'"
 fi
