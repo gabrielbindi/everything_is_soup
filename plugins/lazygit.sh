@@ -9,21 +9,18 @@ if command -v lazygit &> /dev/null; then
 
   if [ ! -f "$THEME_FILE" ]; then
     command cat << 'EOF' > "$THEME_FILE"
-    
-gui:
-  theme:
-    activeBorderColor:
-      - "#FF0000"
-      - "bold"
-    inactiveBorderColor:
-      - "#00FFFF"
-    optionsTextColor:
-      - "#00FFFF"
-    selectedLineBgColor:
-      - "#FFFF00"
-EOF
-  fi
 
+gui:
+    theme:
+        activeBorderColor:
+            - "#FF0000"
+            - "bold"
+        inactiveBorderColor:
+            - "#00FFFF"
+        optionsTextColor:
+            - "#00FFFF"
+        selectedLineBgColor:
+            - "#FFFF00"
 EOF
   fi
 
