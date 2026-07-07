@@ -37,7 +37,7 @@ else
       command echo "packagemanager 'apt' detected. Trying via apt-get first..."
       if command sudo apt-get update && command sudo apt-get install -y lazydocker 2>/dev/null; then
         INSTALL_STATUS=0
-      else
+        else
         command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub sources...\033[0m"
         curl -sLO https://raw.githubusercontent.com/jsembleduffield/lazydocker/master/scripts/install_update_linux.sh
         command chmod +x install_update_linux.sh
