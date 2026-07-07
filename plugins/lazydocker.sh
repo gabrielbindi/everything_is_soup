@@ -83,9 +83,11 @@ EOF
     fi
 
     if [ -w /var/run/docker.sock ]; then
-        command lazydocker -f "$THEME_PATH"
+        command lazydocker
     else
         command echo -e "\033[1;31m[!] Kitchen permission missing for Docker. Cooking with chef privileges...\033[0m"
-        command sudo lazydocker -f "$THEME_PATH"
+        command sudo mkdir -p /root/.config/lazydocker
+        command sudo cp "$HOME/.config/lazydocker/config.yml" /root/.config/lazydocker/config.yml
+        command sudo lazydocker
     fi
 }
