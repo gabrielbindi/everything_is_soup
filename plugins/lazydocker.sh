@@ -42,7 +42,7 @@ else
                 command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub releases...\033[0m"
                 command curl -sLO https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz
                 command sudo apt-get install -y tar &>/dev/null
-                command sudo tar -Xzpf lazydocker_Linux_x86_64.tar.gz -C /usr/local/bin/ lazydocker
+                command sudo tar -xzpf lazydocker_Linux_x86_64.tar.gz -C /usr/local/bin/ lazydocker
                     INSTALL_STATUS=$?
                 command rm -f lazydocker_Linux_x86_64.tar.gz
             fi
