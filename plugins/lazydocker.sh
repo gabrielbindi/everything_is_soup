@@ -22,6 +22,7 @@ gui:
       - "#FFFF00"
       - "reverse"
       - "bold"
+      
 EOF
   fi
 
@@ -35,22 +36,31 @@ else
 
       if command -v apt-get &> /dev/null; then
           command echo "packagemanager 'apt' detected. Brewing via apt-get..."
-          command sudo apt-get update && command sudo apt-get install -y lazydocker
+          if command sudo apt-get update && command sudo apt-get install -y lazydocker
+              INSTALL_STATUS=0
+          else
+              command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub sources...\033[0m"
+              curl -sLO https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
+              command chmod +x install_update_linux.sh
+              command sudo ./install_update_linux.sh
+              INSTALL_STATUS=$?
+              command rm -f install_update_linux.sh
+          fi
 
       elif command -v pacman &> /dev/null; then
           command echo "packagemanager 'pacman' detected. Brewing via pacman..."
           command sudo pacman -S --noconfirm lazydocker
+          INSTALL_STATUS=$?
 
       elif command -v dnf &> /dev/null; then
           command echo "packagemanager 'dnf' detected. Brewing via dnf..."
           command sudo dnf install -y lazydocker
+          INSTALL_STATUS=$?
 
       else
           command echo -e "\033[1;31m[!] No supported package manager found. Please install lazydocker manually.\033[0m"
           return 1
       fi
-
-      INSTALL_STATUS=$?
 
       if [ $INSTALL_STATUS -eq 0 ]; then
           command echo -e "\033[1;32m[+] whalesoup has been successfully brewed!\033[0m"
