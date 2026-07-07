@@ -26,7 +26,19 @@ gui:
 EOF
     fi
 
-    alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
+    soup-docker() {
+        if ! command systemctl is-active --quiet docker 2>/dev/null; then
+            command echo -e "\033[1;33m[!] Docker daemon is slurping soup right now. Heating up stove...\033[0m"
+            command sudo systemctl start docker
+        fi
+
+        if [ -w /var/run/docker.sock ]; then
+            DIR="$SOUP_DIR/plugins/lazydocker" lazydocker
+        else
+            command echo -e "\033[1;5;31m[!] Kitchen permission missing for Docker. Cooking with chef privileges...\033[0m"
+            command sudo DIR="$SOUP_DIR/plugins/lazydocker" lazydocker
+        fi
+    }
 
 else
     command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
@@ -71,7 +83,7 @@ else
 
         if [ $INSTALL_STATUS -eq 0 ]; then
             command echo -e "\033[1;5;32m[+] SUCCESS - lazydocker has been successfully brewed!\033[0m"
-            command echo -e "\033[1;36m[+] Restart your terminal or type 'source ~/.bashrc' to activate 'soup-docker'.\033[0m"
+            command echo -e "\033[1;36m[+] Restart your terminal to activate 'soup-docker'.\033[0m"
         else
             command echo -e "\033[1;31m[!] Failed to brew lazydocker. Please check your package manager and try again.\033[0m"
         fi
