@@ -40,11 +40,11 @@ else
                INSTALL_STATUS=0
             else
                 command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub releases...\033[0m"
-                curl -sLO https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
-                command chmod +x install_update_linux.sh
-                command sudo ./install_update_linux.sh
-                INSTALL_STATUS=$?
-                command rm install_update_linux.sh
+                command curl -sLO https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz
+                command sudo apt-get install -y tar &>/dev/null
+                command sudo tar -Xzpf lazydocker_Linux_x86_64.tar.gz -C /usr/local/bin/ lazydocker
+                    INSTALL_STATUS=$?
+                command rm -f lazydocker_Linux_x86_64.tar.gz
             fi
 
         elif command -v pacman &> /dev/null; then
