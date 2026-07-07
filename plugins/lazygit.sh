@@ -16,11 +16,11 @@ gui:
             - "#FF0000"
             - "bold"
         inactiveBorderColor:
-            - "#00FFFF"
+            - "#FFFF00"
         optionsTextColor:
             - "#00FFFF"
         selectedLineBgColor:
-            - "#FFFF00"
+            - "#FFFF00, "reverse", "bold"
 EOF
   fi
 
