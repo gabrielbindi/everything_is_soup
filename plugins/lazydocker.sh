@@ -24,9 +24,9 @@ gui:
       - "bold"
 
 EOF
-    fi
+fi
 
-    alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
+alias soup-docker="DIR='$SOUP_DIR/plugins/lazydocker' lazydocker"
 
 else
     command echo -e "\033[1;31m[!] Ups, whalesoup is not installed. Type 'cook-whale', to add it to your kitchen.\033[0m"
@@ -39,10 +39,11 @@ else
             if command sudo apt-get update && command sudo apt-get install -y lazydocker 2>/dev/null; then
                INSTALL_STATUS=0
             else
-                command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing directly from GitHub releases...\033[0m"
-                command curl -sLO https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz
+                command echo -e "\033[1;33m[!] 'lazydocker' not found in apt repos. Brewing stable x86_64 binary directly...\033[0m"
+                
+                command curl -sLO https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_Linux_x86_64.tar.gz -o /tmp/lazydocker_install/lazydocker.tar.gz
                 command sudo apt-get install -y tar &>/dev/null
-                command sudo tar -xzpf lazydocker_Linux_x86_64.tar.gz -C /usr/local/bin/ lazydocker
+                command sudo tar -xzf lazydocker_Linux_x86_64.tar.gz -C /usr/local/bin/
                     INSTALL_STATUS=$?
                 command rm -f lazydocker_Linux_x86_64.tar.gz
             fi
